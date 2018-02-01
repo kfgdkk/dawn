@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<!-- 页面meta -->
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<title>**公司面试题</title>
+		<!-- Tell the browser to be responsive to screen width -->
+		<meta content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no" name="viewport">
+		<link rel="stylesheet" href="../plugins/bootstrap/css/bootstrap.min.css">
+		<link rel="stylesheet" href="../plugins/adminLTE/css/AdminLTE.css">
+		<link rel="stylesheet" href="../plugins/adminLTE/css/skins/_all-skins.min.css">
+		<link rel="stylesheet" href="../css/style.css">
+		<script src="../plugins/jQuery/jquery-2.2.3.min.js"></script>
+		<script src="../plugins/bootstrap/js/bootstrap.min.js"></script>
+		<!-- 引入angularjs -->
+		<script type="text/javascript" src="../plugins/angularjs/angular.min.js"></script>
+		<!-- 引入分页组件 -->
+		<link rel="stylesheet" href="../plugins/angularjs/pagination.css">
+		<script type="text/javascript" src="../plugins/angularjs/pagination.js"></script>
+		<script type="text/javascript" src="../js/base_pagination.js"></script>
+		<script type="text/javascript" src="../js/service/sellerService.js"></script>
+		<script type="text/javascript" src="../js/controller/baseController.js"></script>
+		<script type="text/javascript" src="../js/controller/sellerController.js"></script>
+		
+
+	</head>
+
+	<body class="hold-transition skin-red sidebar-mini" ng-app="yizhigou" ng-controller="sellerController" ng-init="searchEntity={status:'0'}">
+		<!-- .box-body -->
+		<div class="box box-primary">
+			<div class="box-header with-border">
+				<h3 class="box-title">东软公司面试题</h3>
+			</div>
+
+			<div class="box-body">
+				<ol class="breadcrumb">
+					<li>
+						<a href="company_java.html" ng-click="grade=1;selectList({id:0})">面试公司列表</a>
+					</li>
+					<li>
+						<a href="company_java.html" ng-click="grade=2;selectList(entity_1)">东软公司</a>
+					</li>
+					<li>
+						<a href="interview.html" ng-click="grade=3;selectList(entity_2)">面试题总结</a>
+					</li>
+				</ol>
+				<!-- 数据表格 -->
+				<div class="table-box">
+
+					<!--工具栏-->
+					<div class="pull-left">
+						<div class="form-group form-inline">
+							<div class="btn-group">
+								<button type="button" class="btn btn-default" title="新建" data-toggle="modal" data-target="#editModal" ng-click="entity={}"><i class="fa fa-file-o"></i> 新建</button>
+								<button type="button" class="btn btn-default" title="删除"><i class="fa fa-trash-o"></i> 删除</button>
+								<button type="button" class="btn btn-default" title="刷新"><i class="fa fa-check"></i> 刷新</button>
+
+							</div>
+							<!--工具栏-->
+
+						</div>
+
+					</div>
+			
+					<!--工具栏/-->
+
+					<!--数据列表-->
+					<table id="dataList" class="table table-bordered table-striped table-hover dataTable">
+						<thead>
+							<tr>
+								<th class="" style="padding-right:0px">
+									<input id="selall" type="checkbox" class="icheckbox_square-blue">
+								</th>
+								<th class="sorting_asc">知识点ID</th>
+								<th class="sorting">知识点标题</th>
+								<th class="sorting">创建日期</th>
+								<th class="sorting">更新日期</th>
+								<th class="sorting">点击量</th>
+
+								<th class="text-center">操作</th>
+							</tr>
+						</thead>
+						<tbody>
+							<!-- <tr ng-repeat="entity in list"> -->
+							<tr>
+								<td><input type="checkbox"></td>
+								<td>{{entity.sellerId}}1</td>
+								<td>{{entity.name}}轮播图</td>
+								<td>{{entity.nickName}}2017-05-26 11:23:53</td>
+								<td>{{entity.linkmanName}}2017-05-26 11:23:53</td>
+								<td>{{entity.telephone}}5</td>
+								<td class="text-center">
+									<button type="button" class="btn bg-olive btn-xs" data-toggle="modal" data-target="#sellerModal" ng-click="findOne(entity.sellerId)">详情</button>
+									<button type="button" class="btn bg-olive btn-xs" data-toggle="modal" data-target="#sellerModal1" ng-click="findOne(entity.sellerId)">修改</button>
+									<button type="button" class="btn bg-olive btn-xs">删除</button>
+								</td>
+							</tr>
+							<tr>
+								<td><input type="checkbox"></td>
+								<td>{{entity.sellerId}}2</td>
+								<td>{{entity.name}}静态页面</td>
+								<td>{{entity.nickName}}2017-05-26 11:23:53</td>
+								<td>{{entity.linkmanName}}2017-05-26 11:23:53</td>
+								<td>{{entity.telephone}}6</td>
+								<td class="text-center">
+									<button type="button" class="btn bg-olive btn-xs" data-toggle="modal" data-target="#sellerModal" ng-click="findOne(entity.sellerId)">详情</button>
+									<button type="button" class="btn bg-olive btn-xs" data-toggle="modal" data-target="#sellerModal" ng-click="findOne(entity.sellerId)">修改</button>
+									<button type="button" class="btn bg-olive btn-xs">删除</button>
+								</td>
+							</tr>
+						</tbody>
+					</table>
+					<!--数据列表/-->
+
+					<tm-pagination conf="paginationConf"></tm-pagination>
+				</div>
+				<!-- 数据表格 /-->
+
+			</div>
+			<!-- /.box-body -->
+
+			<!-- 商家详情 -->
+			<div class="modal fade" id="sellerModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+				<div class="modal-dialog modal-lg">
+					<div class="modal-content">
+						<div class="modal-header">
+							<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+							<h3 id="myModalLabel">知识点详情</h3>
+						</div>
+						<div class="modal-body">
+
+							<ul class="nav nav-tabs">
+								<li class="active">
+									<a href="#home" data-toggle="tab">知识点信息</a>
+								</li>
+
+							</ul>
+
+							<!-- 选项卡开始 -->
+							<div id="myTabContent" class="tab-content">
+								<div class="tab-pane active in" id="home">
+									<br>
+									<table class="table table-bordered table-striped" width="800px">
+										<tr>
+											<td>知识点标题</td>
+											<td>{{entity.name}}轮播图</td>
+										</tr>
+										<tr>
+											<td>答案</td>
+											<td>动态显示</td>
+										</tr>
+
+									</table>
+								</div>
+
+							</div>
+							<!-- 选项卡结束 -->
+
+						</div>
+						<div class="modal-footer">
+
+							<button class="btn btn-default" data-dismiss="modal" aria-hidden="true">关闭</button>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="modal fade" id="sellerModal1" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+				<div class="modal-dialog modal-lg">
+					<div class="modal-content">
+						<div class="modal-header">
+							<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+							<h3 id="myModalLabel">知识点详情</h3>
+						</div>
+						<div class="modal-body">
+
+							<ul class="nav nav-tabs">
+								<li class="active">
+									<a href="#home" data-toggle="tab">知识点信息</a>
+								</li>
+
+							</ul>
+
+							<!-- 选项卡开始 -->
+							<div id="myTabContent" class="tab-content">
+								<div class="tab-pane active in" id="home">
+									<br>
+									<table class="table table-bordered table-striped" width="800px">
+										<tr>
+											<td>知识点标题</td>
+											<td>{{entity.name}}静态页面</td>
+										</tr>
+										<tr>
+											<td>答案</td>
+											<td><textarea style="width: 800px; height: 300px;"
+						name="titleDesc">展示各个图片</textarea></td>
+										</tr>
+
+									</table>
+								</div>
+
+							</div>
+							<!-- 选项卡结束 -->
+
+						</div>
+						<div class="modal-footer">
+							<button class="btn btn-default" data-dismiss="modal" aria-hidden="true">修改</button>
+							<button class="btn btn-default" data-dismiss="modal" aria-hidden="true">关闭</button>
+						</div>
+					</div>
+				</div>
+			</div>
+			<!-- 编辑窗口 -->
+			<div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+				<div class="modal-dialog">
+					<div class="modal-content">
+						<div class="modal-header">
+							<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+							<center>
+								<h3 id="myModalLabel">面试题编辑</h3></center>
+						</div>
+						<div class="modal-body">
+
+							<table class="table table-bordered table-striped" width="800px">
+								<tr>
+									<td>知识点标题</td>
+									<td>
+										<input class="form-control" placeholder="知识点标题" ng-model="entity.name">
+									</td>
+								</tr>
+
+								<tr>
+									<td>知识点描述</td>
+									<td>
+										<!--<input select2 config="options['type_template']" placeholder="知识点描述" ng-model="entity.typeId" class="form-control" type="text" />-->
+										<textarea style="width: 500px; height: 300px;"
+						name="titleDesc"></textarea>
+									</td>
+								</tr>
+							</table>
+
+						</div>
+						<div class="modal-footer">
+							<button class="btn btn-success" data-dismiss="modal" aria-hidden="true" ng-click="save()">保存</but                                                                                                                                                        

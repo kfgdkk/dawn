@@ -1,0 +1,228 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.dawn.mapper.TbCategoryTitleMapper" >
+  <resultMap id="BaseResultMap" type="com.dawn.pojo.TbCategoryTitle" >
+    <id column="tb_com_tit_id" property="tbComTitId" jdbcType="BIGINT" />
+    <result column="company_id" property="companyId" jdbcType="BIGINT" />
+    <result column="title_id" property="titleId" jdbcType="BIGINT" />
+    <result column="createtime" property="createtime" jdbcType="TIMESTAMP" />
+    <result column="updatetime" property="updatetime" jdbcType="TIMESTAMP" />
+    <result column="asknum" property="asknum" jdbcType="BIGINT" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    tb_com_tit_id, company_id, title_id, createtime, updatetime, asknum
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.dawn.pojo.TbCategoryTitleExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from tb_category_title
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from tb_category_title
+    where tb_com_tit_id = #{tbComTitId,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from tb_category_title
+    where tb_com_tit_id = #{tbComTitId,jdbcType=BIGINT}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.dawn.pojo.TbCategoryTitleExample" >
+    delete from tb_category_title
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.dawn.pojo.TbCategoryTitle" >
+    insert into tb_category_title (tb_com_tit_id, company_id, title_id, 
+      createtime, updatetime, asknum
+      )
+    values (#{tbComTitId,jdbcType=BIGINT}, #{companyId,jdbcType=BIGINT}, #{titleId,jdbcType=BIGINT}, 
+      #{createtime,jdbcType=TIMESTAMP}, #{updatetime,jdbcType=TIMESTAMP}, #{asknum,jdbcType=BIGINT}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.dawn.pojo.TbCategoryTitle" >
+    insert into tb_category_title
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="tbComTitId != null" >
+        tb_com_tit_id,
+      </if>
+      <if test="companyId != null" >
+        company_id,
+      </if>
+      <if test="titleId != null" >
+        title_id,
+      </if>
+      <if test="createtime != null" >
+        createtime,
+      </if>
+      <if test="updatetime != null" >
+        updatetime,
+      </if>
+      <if test="asknum != null" >
+        asknum,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="tbComTitId != null" >
+        #{tbComTitId,jdbcType=BIGINT},
+      </if>
+      <if test="companyId != null" >
+        #{companyId,jdbcType=BIGINT},
+      </if>
+      <if test="titleId != null" >
+        #{titleId,jdbcType=BIGINT},
+      </if>
+      <if test="createtime != null" >
+        #{createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updatetime != null" >
+        #{updatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="asknum != null" >
+        #{asknum,jdbcType=BIGINT},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.dawn.pojo.TbCategoryTitleExample" resultType="java.lang.Integer" >
+    select count(*) from tb_category_title
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update tb_category_title
+    <set >
+      <if test="record.tbComTitId != null" >
+        tb_com_tit_id = #{record.tbComTitId,jdbcType=BIGINT},
+      </if>
+      <if test="record.companyId != null" >
+        company_id = #{record.companyId,jdbcType=BIGINT},
+      </if>
+      <if test="record.titleId != null" >
+        title_id = #{record.titleId,jdbcType=BIGINT},
+      </if>
+      <if test="record.createtime != null" >
+        createtime = #{record.createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.updatetime != null" >
+        updatetime = #{record.updatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.asknum != null" >
+        asknum = #{record.asknum,jdbcType=BIGINT},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update tb_category_title
+    set tb_com_tit_id = #{record.tbComTitId,jdbcType=BIGINT},
+      company_id = #{record.companyId,jdbcType=BIGINT},
+      title_id = #{record.titleId,jdbcType=BIGINT},
+      createtime = #{record.createtime,jdbcType=TIMESTAMP},
+      updatetime = #{record.updatetime,jdbcType=TIMESTAMP},
+      asknum = #{record.asknum,jdbcType=BIGINT}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.dawn.pojo.TbCategoryTitle" >
+    update tb_category_title
+    <set >
+      <if test="companyId != null" >
+        company_id = #{companyId,jdbcType=BIGINT},
+      </if>
+      <if test="titleId != null" >
+        title_id = #{titleId,jdbcType=BIGINT},
+      </if>
+      <if test="createtime != null" >
+        createtime = #{createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updatetime != null" >
+        updatetime = #{updatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="asknum != null" >
+        asknum = #{asknum,jdbcType=BIGINT},
+      </if>
+    </set>
+    where tb_com_tit_id = #{tbComTitId,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.dawn.pojo.TbCategoryTitle" >
+    update tb_category_title
+    set company_id = #{companyId,jdbcType=BIGINT},
+      title_id = #{titleId,jdbcType=BIGINT},
+      createtime = #{createtime,jdbcType=TIMESTAMP},
+      updatetime = #{updatetime,jdbcType=TIMESTAMP},
+      asknum = #{asknum,jdbcType=BIGINT}
+    where tb_com_tit_id = #{tbComTitId,jdbcType=BIGINT}
+  </update>
+</mapper>

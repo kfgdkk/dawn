@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<!-- 页面meta -->
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>商品分类管理</title>
+	<meta content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no" name="viewport">
+	<link rel="stylesheet" href="../plugins/bootstrap/css/bootstrap.min.css">
+	<link rel="stylesheet" href="../plugins/adminLTE/css/AdminLTE.css">
+	<link rel="stylesheet" href="../plugins/adminLTE/css/skins/_all-skins.min.css">
+	<link rel="stylesheet" href="../css/style.css">
+	<script type="text/javascript" src="../plugins/angularjs/angular.min.js"></script>
+	<script type="text/javascript" src="../js/base_pagination.js"></script>
+	<script src="../plugins/jQuery/jquery-2.2.3.min.js"></script>
+	<script src="../plugins/bootstrap/js/bootstrap.min.js"></script>
+
+	<!--分页组件开始-->
+
+	<link rel="stylesheet" href="../plugins/angularjs/pagination.css">
+	<script type="text/javascript"  src="../plugins/angularjs/pagination.js"></script>
+
+
+	<!--<script type="text/javascript" src="../js/service/itemCatService.js"> </script>-->
+	<!--<script  type="text/javascript" src="../js/controller/itemCatController.js"></script>-->
+	<script type="text/javascript" src="../js/controller/category_h5Controller.js"></script>
+	<script type="text/javascript" src="../js/service/category_h5Service.js"></script>
+</head>
+
+<body class="hold-transition skin-red sidebar-mini" ng-app="yizhigou" ng-controller="category_h5Controller">
+<!-- .box-body -->
+
+<div class="box-header with-border">
+	<h3 class="box-title">h5分类管理
+	</h3>
+</div>
+
+<div class="box-body">
+	<ol class="breadcrumb">
+		<li><a href="#" ng-click="grade=1;selectList(entity)">顶级分类列表</a></li>
+		<li><a href="#" ng-click="grade=2;selectList(entity_1)">{{entity_1.classname}}</a></li>
+		<li><a href="#" ng-click="grade=3;selectList(entity_2)">{{entity_2.classname}}</a></li>
+	</ol>
+	<!-- 数据表格 -->
+	<div class="table-box">
+
+		<!--工具栏-->
+		<div class="pull-left" ng-if="grade!=3">
+			<div class="form-group form-inline">
+				<div class="btn-group">
+					<button type="button" class="btn btn-default" title="新建" data-toggle="modal" data-target="#editModal5" ng-click="entity={}"><i class="fa fa-file-o"></i> 新建</button>
+					<button type="button" class="btn btn-default" title="删除" ng-click="dele()"><i class="fa fa-trash-o"></i> 删除</button>
+					<button type="button" class="btn btn-default" title="刷新" ><i class="fa fa-check"></i> 刷新</button>
+
+				</div>
+			</div>
+		</div>
+		<div class="pull-left" ng-if="grade==3">
+			<div class="form-group form-inline">
+				<div class="btn-group">
+					<button type="button" class="btn btn-default" title="新建" data-toggle="modal" data-target="#editModal" ng-click="entity={}"><i class="fa fa-file-o"></i> 新增题目</button>
+					<button type="button" class="btn btn-default" title="删除" ><i class="fa fa-trash-o"></i> 删除</button>
+					<button type="button" class="btn btn-default" title="刷新" ><i class="fa fa-check"></i> 刷新</button>
+
+				</div>
+			</div>
+		</div>
+		<!--<div class="box-tools pull-right" ng-if="grade!=3">
+			<div class="has-feedback">
+				知识点查询： <input  >
+				<button class="btn btn-default" >查询</button>
+			</div>
+		</div>-->
+		<div class="box-tools pull-right" ng-if="grade==3">
+			<div class="has-feedback">
+				题目查询： <input  >
+				<button class="btn btn-default" >查询</button>
+			</div>
+		</div>
+
+		<!--数据列表-->
+		<table id="dataList" class="table table-bordered table-striped table-hover dataTable">
+			<!--1级-->
+
+			<thead>
+			<tr ng-if="grade!=3">
+				<th class="" style="padding-right:0px">
+					<input type="checkbox" id="selall" class="icheckbox_square-blue">
+				</th>
+				<th class="sorting_asc">知识点ID</th>
+				<th class="sorting">知识点名称</th>
+				<th class="text-center">操作</th>
+			</tr>
+			<tr ng-if="grade==3">
+				<th class="" style="padding-right:0px">
+					<input type="checkbox" class="icheckbox_square-blue">
+				</th>
+				<th class="sorting_asc">知识点ID</th>
+				<th class="sorting">知识点标题</th>
+				<th class="sorting">创建日期</th>
+				<th class="sorting">更新日期</th>
+				<th class="sorting">点击量</th>
+				<th class="text-center">操作</th>
+			</tr>
+			</thead>
+			<tbody >
+			<!--测试数据-->
+			<tr ng-repeat="entity in list" ng-if="grade!=3">
+				<td><input type="checkbox" ng-click="updateSelection($event,entity.categordId)" ></td>
+				<td>{{entity.categordId}}</td>
+				<td>{{entity.classname}}</td>
+				<td class="text-center">
+										  <span ng-if="grade!=3">
+			<button type="button" class="btn bg-olive btn-xs" ng-click="setgrade(grade+1);selectList(entity)">查询下级</button>
+											  </span>
+					<button type="button" class="btn bg-olive btn-xs" data-toggle="modal" data-target="#editModal" ng-click="findOne(entity.categordId)" >修改</button>
+				</td>
+			</tr>
+			<!--展示第三层的遍历-->
+			<tr ng-if="grade==3" ng-repeat="entity in list">
+				<td><input type="checkbox" ></td>
+				<td>{{entity.tbtitleId}}</td>
+				<td>{{entity.title}}</td>
+				<td>{{entity.created}}</td>
+				<td>{{entity.updated}}</td>
+				<td>{{entity.clicknum}}</td>
+				<td class="text-center">
+					<button type="button" class="btn bg-olive btn-xs" data-toggle="modal" data-target="#editModal" ng-click="findOne2(entity.id)" >修改</button>
+					<button type="button" class="btn bg-olive btn-xs" data-toggle="modal" data-target="#editModal1" ng-click="findOne3(entity.tbtitleId)" >详情</button>
+				</td>
+			</tr>
+
+			</tbody>
+
+
+
+		</table>
+		<!--数据列表/-->
+
+	</div>
+	<!-- 数据表格 /-->
+
+
+	<!--分页样式的引入  --> <tm-pagination  conf="paginationConf"></tm-pagination>
+
+
+</div>
+<!-- /.box-body -->
+
+
+<!-- 编辑窗口-修改的方法,在controller 层方法中进行判断-米源的任务 -->
+<div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+	<div class="modal-dialog" >
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+				<h3 id="myModalLabel">编辑知识点</h3>
+			</div>
+			<div class="modal-body">
+
+				<table class="table table-bordered table-striped"  width="800px">
+					<tr>
+						<td>知识点商品分类</td>
+						<td>
+							{{entity_1.classname}} >> {{entity_2.classname}}
+						</td>
+					</tr>
+					<tr>
+						<td>知识点名称</td>
+						<td><input  class="form-control" placeholder="知识点名称" ng-model="entity.classname"> </td>
+					</tr>
+				</table>
+
+			</div>
+			<div class="modal-footer">
+				<button class="btn btn-success" data-dismiss="modal" aria-hidden="true" ng-click="update()">修改</button>
+				<button class="btn btn-default" data-dismiss="modal" aria-hidden="true">关闭</button>
+			</div>
+		</div>
+	</div>
+</div>
+<!-- 编辑窗口-添加的方法,在controller 层方法中进行判断-米源的任务 -->
+<div class="modal fade" id="editModal5" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog" >
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <h3 id="myModalLabel">编辑知识点</h3>
+            </div>
+            <div class="modal-body">
+
+                <table class="table table-bordered table-striped"  width="800px">
+                    <tr>
+                        <td>知识点商品分类</td>
+                        <td>
+                            {{entity_1.classname}} >> {{entity_2.classname}}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>知识点名称</td>
+                        <td><input  class="form-control" placeholder="知识点名称" ng-model="entity.classname"> </td>
+                    </tr>
+                </table>
+
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-success" data-dismiss="modal" aria-hidden="true" ng-click="add()">添加</button>
+                <button class="btn btn-default" data-dismiss="modal" aria-hidden="true">关闭</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!--王成的详情弹框-->
+<!-- 编辑窗口 -->
+<div class="modal fade" id="editModal1" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+	<div class="modal-dialog" >
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+				<h3 id="myModalLabel">知识点题目明细</h3>
+			</div>
+			<div class="modal-body">
+
+				<table class="table table-bordered table-striped"  width="800px">
+					<!--<tr>
+						<td>知识点题目</td>
+						<td>
+							{{entity.title}} >> {{entity_2.name}}
+						</td>
+					</tr>-->
+					<tr>
+						<td>解  答:</td>
+						<!--<td><input  class="form-control" placeholder="知识点明细" >  </td>-->
+						<td><textarea ng-model="entity.titleDesc" style="width: 400px;height: 200px"></textarea></td>
+					</tr>
+					<!--	<tr>
+                            <td>类型模板</td>
+                            <td>
+                                <input select2 config="options['type_template']" placeholder="商品类型模板" ng-model="entity.typeId" class="form-control" type="text"/>
+                            </td>
+                        </tr>-->
+				</table>
+
+			</div>
+			<div class="modal-footer">
+				<!--<button class="btn btn-success" data-dismiss="modal" aria-hidden="true" ng-click="save()">保存</button>
+				<button class="btn btn-default" data-dismiss="modal" aria-hidden="true">关闭</button>-->
+			</div>
+		</div>
+	</div>
+</div>
+
+
+</body>
+</html>

@@ -1,0 +1,341 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.dawn.mapper.TbCompanyMapper" >
+  <resultMap id="BaseResultMap" type="com.dawn.pojo.TbCompany" >
+    <id column="company_id" property="companyId" jdbcType="BIGINT" />
+    <result column="corporate" property="corporate" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+    <result column="parentid" property="parentid" jdbcType="BIGINT" />
+    <result column="audit_status" property="auditStatus" jdbcType="CHAR" />
+    <result column="userid" property="userid" jdbcType="INTEGER" />
+    <result column="cause" property="cause" jdbcType="VARCHAR" />
+    <result column="user_type" property="userType" jdbcType="INTEGER" />
+  </resultMap>
+  <resultMap id="ResultMapWithBLOBs" type="com.dawn.pojo.TbCompany" extends="BaseResultMap" >
+    <result column="companyinfo" property="companyinfo" jdbcType="LONGVARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    company_id, corporate, create_time, update_time, parentid, audit_status, userid, 
+    cause, user_type
+  </sql>
+  <sql id="Blob_Column_List" >
+    companyinfo
+  </sql>
+  <select id="selectByExampleWithBLOBs" resultMap="ResultMapWithBLOBs" parameterType="com.dawn.pojo.TbCompanyExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from tb_company
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.dawn.pojo.TbCompanyExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from tb_company
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from tb_company
+    where company_id = #{companyId,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from tb_company
+    where company_id = #{companyId,jdbcType=BIGINT}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.dawn.pojo.TbCompanyExample" >
+    delete from tb_company
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.dawn.pojo.TbCompany" >
+    insert into tb_company (company_id, corporate, create_time, 
+      update_time, parentid, audit_status, 
+      userid, cause, user_type, 
+      companyinfo)
+    values (#{companyId,jdbcType=BIGINT}, #{corporate,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{updateTime,jdbcType=TIMESTAMP}, #{parentid,jdbcType=BIGINT}, #{auditStatus,jdbcType=CHAR}, 
+      #{userid,jdbcType=INTEGER}, #{cause,jdbcType=VARCHAR}, #{userType,jdbcType=INTEGER}, 
+      #{companyinfo,jdbcType=LONGVARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.dawn.pojo.TbCompany" >
+    insert into tb_company
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="companyId != null" >
+        company_id,
+      </if>
+      <if test="corporate != null" >
+        corporate,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="updateTime != null" >
+        update_time,
+      </if>
+      <if test="parentid != null" >
+        parentid,
+      </if>
+      <if test="auditStatus != null" >
+        audit_status,
+      </if>
+      <if test="userid != null" >
+        userid,
+      </if>
+      <if test="cause != null" >
+        cause,
+      </if>
+      <if test="userType != null" >
+        user_type,
+      </if>
+      <if test="companyinfo != null" >
+        companyinfo,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="companyId != null" >
+        #{companyId,jdbcType=BIGINT},
+      </if>
+      <if test="corporate != null" >
+        #{corporate,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null" >
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="parentid != null" >
+        #{parentid,jdbcType=BIGINT},
+      </if>
+      <if test="auditStatus != null" >
+        #{auditStatus,jdbcType=CHAR},
+      </if>
+      <if test="userid != null" >
+        #{userid,jdbcType=INTEGER},
+      </if>
+      <if test="cause != null" >
+        #{cause,jdbcType=VARCHAR},
+      </if>
+      <if test="userType != null" >
+        #{userType,jdbcType=INTEGER},
+      </if>
+      <if test="companyinfo != null" >
+        #{companyinfo,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.dawn.pojo.TbCompanyExample" resultType="java.lang.Integer" >
+    select count(*) from tb_company
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update tb_company
+    <set >
+      <if test="record.companyId != null" >
+        company_id = #{record.companyId,jdbcType=BIGINT},
+      </if>
+      <if test="record.corporate != null" >
+        corporate = #{record.corporate,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createTime != null" >
+        create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.updateTime != null" >
+        update_time = #{record.updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.parentid != null" >
+        parentid = #{record.parentid,jdbcType=BIGINT},
+      </if>
+      <if test="record.auditStatus != null" >
+        audit_status = #{record.auditStatus,jdbcType=CHAR},
+      </if>
+      <if test="record.userid != null" >
+        userid = #{record.userid,jdbcType=INTEGER},
+      </if>
+      <if test="record.cause != null" >
+        cause = #{record.cause,jdbcType=VARCHAR},
+      </if>
+      <if test="record.userType != null" >
+        user_type = #{record.userType,jdbcType=INTEGER},
+      </if>
+      <if test="record.companyinfo != null" >
+        companyinfo = #{record.companyinfo,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExampleWithBLOBs" parameterType="map" >
+    update tb_company
+    set company_id = #{record.companyId,jdbcType=BIGINT},
+      corporate = #{record.corporate,jdbcType=VARCHAR},
+      create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      update_time = #{record.updateTime,jdbcType=TIMESTAMP},
+      parentid = #{record.parentid,jdbcType=BIGINT},
+      audit_status = #{record.auditStatus,jdbcType=CHAR},
+      userid = #{record.userid,jdbcType=INTEGER},
+      cause = #{record.cause,jdbcType=VARCHAR},
+      user_type = #{record.userType,jdbcType=INTEGER},
+      companyinfo = #{record.companyinfo,jdbcType=LONGVARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update tb_company
+    set company_id = #{record.companyId,jdbcType=BIGINT},
+      corporate = #{record.corporate,jdbcType=VARCHAR},
+      create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      update_time = #{record.updateTime,jdbcType=TIMESTAMP},
+      parentid = #{record.parentid,jdbcType=BIGINT},
+      audit_status = #{record.auditStatus,jdbcType=CHAR},
+      userid = #{record.userid,jdbcType=INTEGER},
+      cause = #{record.cause,jdbcType=VARCHAR},
+      user_type = #{record.userType,jdbcType=INTEGER}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.dawn.pojo.TbCompany" >
+    update tb_company
+    <set >
+      <if test="corporate != null" >
+        corporate = #{corporate,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null" >
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="parentid != null" >
+        parentid = #{parentid,jdbcType=BIGINT},
+      </if>
+      <if test="auditStatus != null" >
+        audit_status = #{auditStatus,jdbcType=CHAR},
+      </if>
+      <if test="userid != null" >
+        userid = #{userid,jdbcType=INTEGER},
+      </if>
+      <if test="cause != null" >
+        cause = #{cause,jdbcType=VARCHAR},
+      </if>
+      <if test="userType != null" >
+        user_type = #{userType,jdbcType=INTEGER},
+      </if>
+      <if test="companyinfo != null" >
+        companyinfo = #{companyinfo,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where company_id = #{companyId,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.dawn.pojo.TbCompany" >
+    update tb_company
+    set corporate = #{corporate,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      parentid = #{parentid,jdbcType=BIGINT},
+      audit_status = #{auditStatus,jdbcType=CHAR},
+      userid = #{userid,jdbcType=INTEGER},
+      cause = #{cause,jdbcType=VARCHAR},
+      user_type = #{userType,jdbcType=INTEGER},
+      companyinfo = #{companyinfo,jdbcType=LONGVARCHAR}
+    where company_id = #{companyId,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.dawn.pojo.TbCompany" >
+    update tb_company
+    set corporate = #{corporate,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      parentid = #{parentid,jdbcType=BIGINT},
+      audit_status = #{auditStatus,jdbcType=CHAR},
+      userid = #{userid,jdbcType=INTEGER},
+      cause = #{cause,jdbcType=VARCHAR},
+      user_type = #{userType,jdbcType=INTEGER}
+    where company_id = #{companyId,jdbcType=BIGINT}
+  </update>
+</mapper>

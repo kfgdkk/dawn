@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.dawn.mapper.TbTitleCustomMapper" >
+
+<!-- 根据用户id查询待审核知识点 -->
+<select id="getByAuditStatuAndUserId" parameterType="int" resultType="com.dawn.pojo.TbTitleCustom">
+SELECT
+	t.tbtitle_id tbtitleId,
+	t.title,
+	t.created,
+	t.updated,
+	t.clicknum,
+	t.category_id categoryId,
+	t.audit_status auditStatus,
+	t.userid,
+	t.cause,
+	u.username
+FROM
+	tb_title t,
+	sys_user u
+WHERE
+	t.userid = u.id
+AND t.audit_status = 0
+AND t.userid IN (
+	SELECT
+		id
+	FROM
+		sys_user
+	WHERE
+		parent_id = #{id}
+)
+
+</select>  
+  
+  
+</mapper>

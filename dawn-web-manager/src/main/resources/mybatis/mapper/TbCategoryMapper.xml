@@ -1,0 +1,228 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.dawn.mapper.TbCategoryMapper" >
+  <resultMap id="BaseResultMap" type="com.dawn.pojo.TbCategory" >
+    <id column="categord_id" property="categordId" jdbcType="BIGINT" />
+    <result column="classname" property="classname" jdbcType="VARCHAR" />
+    <result column="parentId" property="parentid" jdbcType="BIGINT" />
+    <result column="created" property="created" jdbcType="TIMESTAMP" />
+    <result column="updated" property="updated" jdbcType="TIMESTAMP" />
+    <result column="tb_desc_ids" property="tbDescIds" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    categord_id, classname, parentId, created, updated, tb_desc_ids
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.dawn.pojo.TbCategoryExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from tb_category
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from tb_category
+    where categord_id = #{categordId,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from tb_category
+    where categord_id = #{categordId,jdbcType=BIGINT}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.dawn.pojo.TbCategoryExample" >
+    delete from tb_category
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.dawn.pojo.TbCategory" >
+    insert into tb_category (categord_id, classname, parentId, 
+      created, updated, tb_desc_ids
+      )
+    values (#{categordId,jdbcType=BIGINT}, #{classname,jdbcType=VARCHAR}, #{parentid,jdbcType=BIGINT}, 
+      #{created,jdbcType=TIMESTAMP}, #{updated,jdbcType=TIMESTAMP}, #{tbDescIds,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.dawn.pojo.TbCategory" >
+    insert into tb_category
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="categordId != null" >
+        categord_id,
+      </if>
+      <if test="classname != null" >
+        classname,
+      </if>
+      <if test="parentid != null" >
+        parentId,
+      </if>
+      <if test="created != null" >
+        created,
+      </if>
+      <if test="updated != null" >
+        updated,
+      </if>
+      <if test="tbDescIds != null" >
+        tb_desc_ids,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="categordId != null" >
+        #{categordId,jdbcType=BIGINT},
+      </if>
+      <if test="classname != null" >
+        #{classname,jdbcType=VARCHAR},
+      </if>
+      <if test="parentid != null" >
+        #{parentid,jdbcType=BIGINT},
+      </if>
+      <if test="created != null" >
+        #{created,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updated != null" >
+        #{updated,jdbcType=TIMESTAMP},
+      </if>
+      <if test="tbDescIds != null" >
+        #{tbDescIds,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.dawn.pojo.TbCategoryExample" resultType="java.lang.Integer" >
+    select count(*) from tb_category
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update tb_category
+    <set >
+      <if test="record.categordId != null" >
+        categord_id = #{record.categordId,jdbcType=BIGINT},
+      </if>
+      <if test="record.classname != null" >
+        classname = #{record.classname,jdbcType=VARCHAR},
+      </if>
+      <if test="record.parentid != null" >
+        parentId = #{record.parentid,jdbcType=BIGINT},
+      </if>
+      <if test="record.created != null" >
+        created = #{record.created,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.updated != null" >
+        updated = #{record.updated,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.tbDescIds != null" >
+        tb_desc_ids = #{record.tbDescIds,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update tb_category
+    set categord_id = #{record.categordId,jdbcType=BIGINT},
+      classname = #{record.classname,jdbcType=VARCHAR},
+      parentId = #{record.parentid,jdbcType=BIGINT},
+      created = #{record.created,jdbcType=TIMESTAMP},
+      updated = #{record.updated,jdbcType=TIMESTAMP},
+      tb_desc_ids = #{record.tbDescIds,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.dawn.pojo.TbCategory" >
+    update tb_category
+    <set >
+      <if test="classname != null" >
+        classname = #{classname,jdbcType=VARCHAR},
+      </if>
+      <if test="parentid != null" >
+        parentId = #{parentid,jdbcType=BIGINT},
+      </if>
+      <if test="created != null" >
+        created = #{created,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updated != null" >
+        updated = #{updated,jdbcType=TIMESTAMP},
+      </if>
+      <if test="tbDescIds != null" >
+        tb_desc_ids = #{tbDescIds,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where categord_id = #{categordId,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.dawn.pojo.TbCategory" >
+    update tb_category
+    set classname = #{classname,jdbcType=VARCHAR},
+      parentId = #{parentid,jdbcType=BIGINT},
+      created = #{created,jdbcType=TIMESTAMP},
+      updated = #{updated,jdbcType=TIMESTAMP},
+      tb_desc_ids = #{tbDescIds,jdbcType=VARCHAR}
+    where categord_id = #{categordId,jdbcType=BIGINT}
+  </update>
+</mapper>

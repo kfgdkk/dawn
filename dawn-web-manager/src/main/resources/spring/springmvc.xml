@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/mvc
+        http://www.springframework.org/schema/mvc/spring-mvc.xsd
+        http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context.xsd">
+
+
+    <!-- 配置自动扫描的包 -->
+    <context:component-scan base-package="com.dawn"/>
+
+    <!-- 加载处理全局异常类 -->
+
+<!--
+    <bean class="com.dawn.exception.GlobalExceptionReslover"/>
+-->
+    <!-- 视图解析器 -->
+    <bean
+            class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+        <property name="prefix" value="/WEB-INF/jsp/" />
+        <property name="suffix" value=".jsp" />
+    </bean>
+    <mvc:annotation-driven/>
+
+ <!--   <mvc:resources location="/WEB-INF/js/" mapping="/js/**"/>
+    <mvc:resources location="/WEB-INF/css/" mapping="/css/**"/>
+    <mvc:resources location="WEB-INF/images/" mapping="/images/**"/>
+    <mvc:resources location="/WEB-INF/js/boostrap/" mapping="/js/boostrap/**"/>
+    <mvc:resources location="/WEB-INF/js/bootstrap-table/" mapping="/js/bootstrap-table/**"/>
+    <mvc:resources location="/WEB-INF/assets/" mapping="/assets/**"/>
+    <mvc:resources location="/WEB-INF/pics/" mapping="/pics/**"/>-->
+
+    <!-- SpringMVC上传文件时，需要配置MultipartResolver处理器 -->
+    <bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+        <property name="defaultEncoding" value="utf-8" />
+        <!-- 指定所上传文件的总大小不能超过10485760000B。注意maxUploadSize属性的限制不是针对单个文件，而是所有文件的容量之和 -->
+        <property name="maxUploadSize" value="10485760000" />
+        <property name="maxInMemorySize" value="40960" />
+    </bean>
+
+    <!-- 用户认证拦截 -->
+    <!--<mvc:interceptors>
+        <mvc:interceptor>
+            <mvc:mapping path="/**"/>
+            <mvc:exclude-mapping path="/**/fonts/*"/>
+            <mvc:exclude-mapping path="/**/*.css"/>
+            <mvc:exclude-mapping path="/**/*.js"/>
+            <mvc:exclude-mapping path="/**/*.png"/>
+            <mvc:exclude-mapping path="/**/*.gif"/>
+            <mvc:exclude-mapping path="/**/*.jpg"/>
+            <mvc:exclude-mapping path="/**/*.jpeg"/>
+            <mvc:exclude-mapping path="/**/*validatecode*"/>
+            <mvc:exclude-mapping path="/**/*Login*"/>
+            <mvc:exclude-mapping path="/**/*error*"/>
+            <bean class="com.dawn.interceptor.LoginInterceptor"/>
+        </mvc:interceptor>
+
+
+        &lt;!&ndash; 用户权限拦截 &ndash;&gt;
+        <mvc:interceptor>
+            <mvc:mapping path="/**"/>
+            <mvc:exclude-mapping path="/**/fonts/*"/>
+            <mvc:exclude-mapping path="/**/*.css"/>
+            <mvc:exclude-mapping path="/**/*.js"/>
+            <mvc:exclude-mapping path="/**/*.png"/>
+            <mvc:exclude-mapping path="/**/*.gif"/>
+            <mvc:exclude-mapping path="/**/*.jpg"/>
+            <mvc:exclude-mapping path="/**/*.jpeg"/>
+            <mvc:exclude-mapping path="/**/*validatecode*"/>
+            <mvc:exclude-mapping path="/**/*Login*"/>
+            <mvc:exclude-mapping path="/**/*error*"/>
+            <bean class="com.dawn.interceptor.PermissionInterceptor"/>
+        </mvc:interceptor>
+    </mvc:interceptors>
+    &lt;!&ndash;拦截器需要放过的样式&ndash;&gt;
+    <mvc:interceptors>
+        <mvc:interceptor>
+            <mvc:mapping path="/**"/>
+            <mvc:exclude-mapping path="/**/fonts/*"/>
+            <mvc:exclude-mapping path="/**/*.css"/>
+            <mvc:exclude-mapping path="/**/*.js"/>
+            <mvc:exclude-mapping path="/**/*.png"/>
+            <mvc:exclude-mapping path="/**/*.gif"/>
+            <mvc:exclude-mapping path="/**/*.jpg"/>
+            <mvc:exclude-mapping path="/**/*.jpeg"/>
+            <mvc:exclude-mapping path="/**/*validatecode*"/>
+            <mvc:exclude-mapping path="/**/*Login*"/>
+            <mvc:exclude-mapping path="/**/*error*"/>
+            <bean class="com.dawn.interceptor.LoginInterceptor"/>
+        </mvc:interceptor>
+    </mvc:interceptors>
+-->
+</beans>
