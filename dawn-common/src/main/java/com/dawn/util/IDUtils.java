@@ -16,6 +16,7 @@ import java.util.Random;
 public class IDUtils {
 
 	/**
+	 * 王陈大sb 180cm 180m2 18cm
 	 * 图片名生成
 	 */
 	public static String genImageName() {
